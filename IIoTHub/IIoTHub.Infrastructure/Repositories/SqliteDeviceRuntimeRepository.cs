@@ -32,7 +32,7 @@ namespace IIoTHub.Infrastructure.Repositories
                     DeviceId   TEXT NOT NULL,
                     RunStatus  INTEGER NOT NULL,
                     StartTime  TEXT NOT NULL,
-                    EndTime    TEXT NULL,
+                    EndTime    TEXT NOT NULL,
                     PRIMARY KEY (DeviceId, StartTime)
                 );
                 """;
@@ -59,7 +59,7 @@ namespace IIoTHub.Infrastructure.Repositories
             command.Parameters.AddWithValue("$deviceId", record.DeviceId.ToString());
             command.Parameters.AddWithValue("$runStatus", (int)record.RunStatus);
             command.Parameters.AddWithValue("$startTime", record.StartTime);
-            command.Parameters.AddWithValue("$endTime", record.EndTime.HasValue ? record.EndTime.Value : DBNull.Value);
+            command.Parameters.AddWithValue("$endTime", record.EndTime);
             await command.ExecuteNonQueryAsync();
         }
 
@@ -82,7 +82,7 @@ namespace IIoTHub.Infrastructure.Repositories
                 """;
             command.Parameters.AddWithValue("$deviceId", record.DeviceId.ToString());
             command.Parameters.AddWithValue("$startTime", record.StartTime);
-            command.Parameters.AddWithValue("$endTime", record.EndTime.HasValue ? record.EndTime.Value : DBNull.Value);
+            command.Parameters.AddWithValue("$endTime", record.EndTime);
             await command.ExecuteNonQueryAsync();
         }
 
@@ -106,7 +106,7 @@ namespace IIoTHub.Infrastructure.Repositories
                 SELECT *
                 FROM DeviceRuntimeRecords
                 WHERE DeviceId = $deviceId
-                  AND (EndTime IS NULL OR EndTime > $from)
+                  AND EndTime > $from
                   AND StartTime < $to
                 ORDER BY StartTime;
                 """;
@@ -157,18 +157,12 @@ namespace IIoTHub.Infrastructure.Repositories
         /// <returns></returns>
         private static DeviceRuntimeRecord ReadRecord(SqliteDataReader reader)
         {
-            var record = new DeviceRuntimeRecord(
-                Guid.Parse(reader["DeviceId"].ToString()!),
+            return new DeviceRuntimeRecord(
+                Guid.Parse(reader["DeviceId"].ToString()),
                 (DeviceRunStatus)Convert.ToInt32(reader["RunStatus"]),
-                DateTime.Parse(reader["StartTime"].ToString()!)
+                DateTime.Parse(reader["StartTime"].ToString()),
+                DateTime.Parse(reader["EndTime"].ToString())
             );
-
-            if (reader["EndTime"] != DBNull.Value)
-            {
-                record.Close(DateTime.Parse(reader["EndTime"].ToString()!));
-            }
-
-            return record;
         }
     }
 }

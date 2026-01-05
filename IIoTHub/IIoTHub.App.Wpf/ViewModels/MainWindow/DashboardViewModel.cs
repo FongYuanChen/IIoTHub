@@ -45,6 +45,7 @@ namespace IIoTHub.App.Wpf.ViewModels.MainWindow
         public double AverageUtilization
             => Devices.Where(device => device.IsMonitoring)
                       .Select(device => device.Utilization)
+                      .DefaultIfEmpty(0)
                       .Average();
 
         /// <summary>

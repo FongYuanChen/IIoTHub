@@ -9,11 +9,13 @@ namespace IIoTHub.Domain.Models
     {
         public DeviceRuntimeRecord(Guid deviceId,
                                    DeviceRunStatus runStatus,
-                                   DateTime startTime)
+                                   DateTime startTime,
+                                   DateTime endTime)
         {
             DeviceId = deviceId;
             RunStatus = runStatus;
             StartTime = startTime;
+            EndTime = endTime;
         }
 
         /// <summary>
@@ -34,15 +36,6 @@ namespace IIoTHub.Domain.Models
         /// <summary>
         /// 狀態結束時間
         /// </summary>
-        public DateTime? EndTime { get; private set; }
-
-        /// <summary>
-        /// 結束目前的運行狀態紀錄 (通常在設備狀態發生變更時呼叫)
-        /// </summary>
-        /// <param name="endTime"></param>
-        public void Close(DateTime endTime)
-        {
-            EndTime = endTime;
-        }
+        public DateTime EndTime { get; }
     }
 }

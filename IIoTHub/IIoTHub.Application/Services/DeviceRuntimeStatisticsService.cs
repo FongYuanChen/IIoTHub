@@ -22,25 +22,17 @@ namespace IIoTHub.Application.Services
         public async Task OnSnapshotAsync(DeviceSnapshot snapshot)
         {
             var last = await _repository.GetLatestRecordAsync(snapshot.DeviceId);
-
             if (last == null || last.RunStatus != snapshot.RunStatus)
             {
-                // 如果有上一筆，先結束它
-                if (last != null)
-                {
-                    last.Close(snapshot.Timestamp);
-                    await _repository.UpdateAsync(last);
-                }
-
                 // 建立新紀錄
-                var newRecord = new DeviceRuntimeRecord(snapshot.DeviceId, snapshot.RunStatus, snapshot.Timestamp);
-                await _repository.AddAsync(newRecord);
+                var record = new DeviceRuntimeRecord(snapshot.DeviceId, snapshot.RunStatus, snapshot.Timestamp, snapshot.Timestamp);
+                await _repository.AddAsync(record);
             }
             else
             {
                 // 狀態沒變 → 延長上一筆
-                last.Close(snapshot.Timestamp);
-                await _repository.UpdateAsync(last);
+                var record = new DeviceRuntimeRecord(snapshot.DeviceId, snapshot.RunStatus, last.StartTime, snapshot.Timestamp);
+                await _repository.UpdateAsync(record);
             }
         }
 
@@ -71,12 +63,8 @@ namespace IIoTHub.Application.Services
             double runningSeconds = 0;
             foreach (var record in records)
             {
-                var start = record.StartTime < fromTime ? fromTime : record.StartTime;
-                var end = record.EndTime ?? to.Value;
-                if (end > to.Value) end = to.Value;
-
                 if (record.RunStatus == DeviceRunStatus.Running)
-                    runningSeconds += (end - start).TotalSeconds;
+                    runningSeconds += (record.EndTime - record.StartTime).TotalSeconds;
             }
 
             return runningSeconds / totalSeconds;

@@ -43,6 +43,15 @@ namespace IIoTHub.Application.Services
             // 啟動監控
             if (!_timers.ContainsKey(id))
             {
+                // 啟動監控前先標記離線(預防稼動率算錯)
+                var offlineSnapshot = new DeviceSnapshot
+                {
+                    DeviceId = id,
+                    RunStatus = DeviceRunStatus.Offline
+                };
+                await _deviceRuntimeStatisticsService.OnSnapshotAsync(offlineSnapshot);
+
+                // 建立監控
                 _timers[id] = new Timer(async _ =>
                 {
                     var deviceSetting = await _deviceSettingRepository.GetByIdAsync(id);
@@ -67,7 +76,7 @@ namespace IIoTHub.Application.Services
         /// <returns></returns>
         public async Task StopMonitor(Guid id)
         {
-            // 持久化
+            // 更新監控狀態
             var status = await _deviceMonitorStatusRepository.GetByIdAsync(id) ?? new DeviceMonitorStatus(id);
             status.IsMonitoring = false;
             await _deviceMonitorStatusRepository.UpdateAsync(status);
@@ -79,16 +88,19 @@ namespace IIoTHub.Application.Services
                 _timers.Remove(id);
             }
 
-            // 通知所有訂閱者
-            var offlineSnapshotBase = new DeviceSnapshot
+            // 標記離線
+            var offlineSnapshot = new DeviceSnapshot
             {
                 DeviceId = id,
                 RunStatus = DeviceRunStatus.Offline
             };
-            var offlineSnapshot = new DeviceSnapshotExtended(offlineSnapshotBase, 0);
+            await _deviceRuntimeStatisticsService.OnSnapshotAsync(offlineSnapshot);
+
+            // 通知所有訂閱者
+            var offlineSnapshotExtended = new DeviceSnapshotExtended(offlineSnapshot, 0);
             foreach (var handler in _subscribers[id])
             {
-                handler(offlineSnapshot);
+                handler(offlineSnapshotExtended);
             }
         }
 
