@@ -26,7 +26,7 @@ namespace IIoTHub.Domain.Models.DeviceSettings
         public Guid Id { get; }
 
         /// <summary>
-        /// 設備顯示名稱
+        /// 設備名稱
         /// </summary>
         public string Name { get; }
 

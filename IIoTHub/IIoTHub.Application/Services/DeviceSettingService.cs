@@ -45,13 +45,13 @@ namespace IIoTHub.Application.Services
         /// <summary>
         /// 刪除指定的設備設定
         /// </summary>
-        /// <param name="id"></param>
-        public async Task DeleteAsync(Guid id)
+        /// <param name="deviceId"></param>
+        public async Task DeleteAsync(Guid deviceId)
         {
-            var deviceSetting = await _deviceSettingRepository.GetByIdAsync(id);
+            var deviceSetting = await _deviceSettingRepository.GetByIdAsync(deviceId);
             if (deviceSetting != null)
             {
-                await _deviceSettingRepository.DeleteAsync(id);
+                await _deviceSettingRepository.DeleteAsync(deviceId);
                 var eventArgs = new DeviceSettingChangedEventArgs(DeviceSettingChangeType.Deleted, deviceSetting);
                 DeviceSettingChanged?.Invoke(this, eventArgs);
             }
@@ -69,11 +69,11 @@ namespace IIoTHub.Application.Services
         /// <summary>
         /// 取得指定的設備設定
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="deviceId"></param>
         /// <returns></returns>
-        public async Task<DeviceSetting> GetByIdAsync(Guid id)
+        public async Task<DeviceSetting> GetByIdAsync(Guid deviceId)
         {
-            return await _deviceSettingRepository.GetByIdAsync(id);
+            return await _deviceSettingRepository.GetByIdAsync(deviceId);
         }
     }
 }

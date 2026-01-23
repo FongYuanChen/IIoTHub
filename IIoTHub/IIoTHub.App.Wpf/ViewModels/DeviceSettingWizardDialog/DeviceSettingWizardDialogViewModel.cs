@@ -52,16 +52,16 @@ namespace IIoTHub.App.Wpf.ViewModels.DeviceSettingWizardDialog
         public ICommand FinishCommand { get; }
 
         /// <summary>
-        /// 目前顯示的頁面
+        /// 目前的ViewModel
         /// </summary>
-        public object CurrentPageView =>
-            _wizardDialogNavigation.CurrentPageView;
+        public object CurrentPageViewModel =>
+            _wizardDialogNavigation.CurrentPageViewModel;
 
         // <summary>
         /// 上一頁按鈕的可見性
         /// </summary>
         public Visibility PreviousButtonVisibility =>
-            _wizardDialogNavigation.CanMovePrevious ? Visibility.Visible: Visibility.Collapsed;
+            _wizardDialogNavigation.CanMovePrevious ? Visibility.Visible : Visibility.Collapsed;
 
         /// <summary>
         /// 下一頁按鈕的可見性
@@ -115,7 +115,7 @@ namespace IIoTHub.App.Wpf.ViewModels.DeviceSettingWizardDialog
         /// </summary>
         private void RefreshNavigationState()
         {
-            OnPropertyChanged(nameof(CurrentPageView));
+            OnPropertyChanged(nameof(CurrentPageViewModel));
             OnPropertyChanged(nameof(PreviousButtonVisibility));
             OnPropertyChanged(nameof(NextButtonVisibility));
             OnPropertyChanged(nameof(FinishButtonVisibility));

@@ -6,6 +6,7 @@ using IIoTHub.Infrastructure.DependencyInjections;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Windows;
+using System.Windows.Media;
 
 namespace IIoTHub.App.Wpf
 {
@@ -78,5 +79,21 @@ namespace IIoTHub.App.Wpf
 
             base.OnExit(e);
         }
+
+        #region App.xml 設定檔共用屬性
+
+        public static readonly Brush DeviceStatusOfflineBrush =
+           (SolidColorBrush)System.Windows.Application.Current.Resources["DeviceStatusOfflineBrush"];
+
+        public static readonly Brush DeviceStatusStandbyBrush =
+          (SolidColorBrush)System.Windows.Application.Current.Resources["DeviceStatusStandbyBrush"];
+
+        public static readonly Brush DeviceStatusRunningBrush =
+          (SolidColorBrush)System.Windows.Application.Current.Resources["DeviceStatusRunningBrush"];
+
+        public static readonly Brush DeviceStatusAlarmBrush =
+          (SolidColorBrush)System.Windows.Application.Current.Resources["DeviceStatusAlarmBrush"];
+
+        #endregion
     }
 }

@@ -1,6 +1,8 @@
 ﻿using IIoTHub.Application.Interfaces;
 using IIoTHub.Domain.Interfaces.DeviceDrivers;
 using IIoTHub.Domain.Interfaces.Repositories;
+using IIoTHub.Infrastructure.DeviceDriverHosts;
+using IIoTHub.Infrastructure.DeviceDriverHosts.Interfaces;
 using IIoTHub.Infrastructure.DeviceDrivers.Providers;
 using IIoTHub.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,12 +22,13 @@ namespace IIoTHub.Infrastructure.DependencyInjections
         /// <returns></returns>
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
+            services.AddSingleton<IDeviceDriverHostManager, DeviceDriverHostManager>();
             services.AddDrivers<IMachineDriver>();
             services.AddDrivers<IMagazineDriver>();
             services.AddDrivers<IRobotDriver>();
             services.AddSingleton<IDeviceDriverMetadataProvider, DeviceDriverMetadataProvider>();
             services.AddSingleton<IDeviceDriverProvider, DeviceDriverProvider>();
-            services.AddSingleton<IDeviceMonitorStatusRepository, JsonDeviceMonitorStatusRepository>();
+            services.AddSingleton<IDeviceSnapshotMonitorStatusRepository, JsonDeviceSnapshotMonitorStatusRepository>();
             services.AddSingleton<IDeviceSettingRepository, JsonDeviceSettingRepository>();
             services.AddSingleton<IDeviceRuntimeRepository, SqliteDeviceRuntimeRepository>();
             return services;

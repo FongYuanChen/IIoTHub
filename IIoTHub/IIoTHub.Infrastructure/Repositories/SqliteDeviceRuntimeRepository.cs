@@ -1,8 +1,7 @@
 ﻿using IIoTHub.Domain.Enums;
 using IIoTHub.Domain.Interfaces.Repositories;
-using IIoTHub.Domain.Models;
+using IIoTHub.Domain.Models.DeviceRecords;
 using Microsoft.Data.Sqlite;
-using System.IO;
 
 namespace IIoTHub.Infrastructure.Repositories
 {
@@ -56,7 +55,7 @@ namespace IIoTHub.Infrastructure.Repositories
                 (DeviceId, RunStatus, StartTime, EndTime)
                 VALUES ($deviceId, $runStatus, $startTime, $endTime);
                 """;
-            command.Parameters.AddWithValue("$deviceId", record.DeviceId.ToString());
+            command.Parameters.AddWithValue("$deviceId", record.Id.ToString());
             command.Parameters.AddWithValue("$runStatus", (int)record.RunStatus);
             command.Parameters.AddWithValue("$startTime", record.StartTime);
             command.Parameters.AddWithValue("$endTime", record.EndTime);
@@ -80,7 +79,7 @@ namespace IIoTHub.Infrastructure.Repositories
                 SET EndTime = $endTime
                 WHERE DeviceId = $deviceId AND StartTime = $startTime;
                 """;
-            command.Parameters.AddWithValue("$deviceId", record.DeviceId.ToString());
+            command.Parameters.AddWithValue("$deviceId", record.Id.ToString());
             command.Parameters.AddWithValue("$startTime", record.StartTime);
             command.Parameters.AddWithValue("$endTime", record.EndTime);
             await command.ExecuteNonQueryAsync();
@@ -93,7 +92,7 @@ namespace IIoTHub.Infrastructure.Repositories
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <returns></returns>
-        public async Task<IReadOnlyList<DeviceRuntimeRecord>> GetRecordsAsync(Guid deviceId, DateTime from, DateTime to)
+        public async Task<IEnumerable<DeviceRuntimeRecord>> GetRecordsAsync(Guid deviceId, DateTime from, DateTime to)
         {
             var list = new List<DeviceRuntimeRecord>();
 

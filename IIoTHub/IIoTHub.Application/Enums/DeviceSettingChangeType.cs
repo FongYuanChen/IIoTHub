@@ -8,16 +8,16 @@
         /// <summary>
         /// 新增一筆設備設定
         /// </summary>
-        Added,
+        Added = 1,
 
         /// <summary>
         /// 更新既有的設備設定內容
         /// </summary>
-        Updated,
+        Updated = 2,
 
         /// <summary>
         /// 刪除既有的設備設定
         /// </summary>
-        Deleted
+        Deleted = 3
     }
 }

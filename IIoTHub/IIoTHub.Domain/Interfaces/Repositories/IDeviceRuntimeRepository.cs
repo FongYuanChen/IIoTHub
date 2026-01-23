@@ -1,4 +1,4 @@
-﻿using IIoTHub.Domain.Models;
+﻿using IIoTHub.Domain.Models.DeviceRecords;
 
 namespace IIoTHub.Domain.Interfaces.Repositories
 {
@@ -24,7 +24,7 @@ namespace IIoTHub.Domain.Interfaces.Repositories
         /// <summary>
         /// 取得指定設備在特定時間區間內的運轉紀錄
         /// </summary>
-        Task<IReadOnlyList<DeviceRuntimeRecord>> GetRecordsAsync(Guid deviceId, DateTime from, DateTime to);
+        Task<IEnumerable<DeviceRuntimeRecord>> GetRecordsAsync(Guid deviceId, DateTime from, DateTime to);
 
         /// <summary>
         /// 取得指定設備最新的一筆運轉紀錄

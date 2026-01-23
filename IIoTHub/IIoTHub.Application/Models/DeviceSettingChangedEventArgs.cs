@@ -4,7 +4,7 @@ using IIoTHub.Domain.Models.DeviceSettings;
 namespace IIoTHub.Application.Models
 {
     /// <summary>
-    /// 設備設定變更事件的事件資料
+    /// 設備設定變更事件的事件參數
     /// </summary>
     public class DeviceSettingChangedEventArgs : EventArgs
     {
@@ -21,7 +21,7 @@ namespace IIoTHub.Application.Models
         public DeviceSettingChangeType ChangeType { get; }
 
         /// <summary>
-        /// 變更的設備設定物件
+        /// 變更的設備設定
         /// </summary>
         public DeviceSetting DeviceSetting { get; }
     }

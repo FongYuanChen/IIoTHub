@@ -2,7 +2,6 @@
 using IIoTHub.Domain.Models.DeviceSettings;
 using Newtonsoft.Json;
 using System.Collections.Immutable;
-using System.IO;
 
 namespace IIoTHub.Infrastructure.Repositories
 {
@@ -65,15 +64,15 @@ namespace IIoTHub.Infrastructure.Repositories
         /// <summary>
         /// 刪除指定的設備設定
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="deviceId"></param>
         /// <returns></returns>
-        public async Task DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid deviceId)
         {
             await _fileLock.WaitAsync();
             try
             {
                 var deviceSettings = await LoadAllAndUpdateCacheInternalAsync();
-                deviceSettings.RemoveAll(e => e.Id == id);
+                deviceSettings.RemoveAll(e => e.Id == deviceId);
                 await SaveAllAndUpdateCacheInternalAsync(deviceSettings);
             }
             finally
@@ -108,12 +107,12 @@ namespace IIoTHub.Infrastructure.Repositories
         /// <summary>
         /// 取得指定的設備設定
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="deviceId"></param>
         /// <returns></returns>
-        public async Task<DeviceSetting> GetByIdAsync(Guid id)
+        public async Task<DeviceSetting> GetByIdAsync(Guid deviceId)
         {
             var deviceSettings = await GetAllAsync();
-            return deviceSettings.FirstOrDefault(d => d.Id == id);
+            return deviceSettings.FirstOrDefault(d => d.Id == deviceId);
         }
 
         /// <summary>

@@ -1,0 +1,825 @@
+﻿<UserControl x:Class="IIoTHub.App.Wpf.Views.Dashboard.DeviceMachineView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:multiValueConverters="clr-namespace:IIoTHub.App.Wpf.ViewModels.MultiValueConverter"
+             xmlns:valueConverters="clr-namespace:IIoTHub.App.Wpf.ViewModels.ValueConverter"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <multiValueConverters:RuntimeDurationHourToBarWidthConverter x:Key="RuntimeDurationHourToBarWidthConverter" />
+        <valueConverters:DeviceStatusToBrushConverter x:Key="DeviceStatusToBrushConverter" />
+    </UserControl.Resources>
+
+    <Grid Background="#EEE">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="5*" />
+            <RowDefinition Height="2*" />
+        </Grid.RowDefinitions>
+
+        <!-- 標題 -->
+        <Border Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Grid.Row="0"
+                Style="{DynamicResource DropShadowEffectCardStyle}">
+
+            <TextBlock Text="{Binding Name}"
+                       FontSize="14"
+                       FontWeight="SemiBold"
+                       Foreground="{StaticResource PrimaryBrush}"
+                       HorizontalAlignment="Center" />
+        </Border>
+
+        <!-- 加工即時狀態相關 -->
+        <UniformGrid Grid.Column="0"
+                     Grid.Row="1"
+                     Columns="2"
+                     Rows="5">
+
+            <!-- 執行狀態 -->
+            <Border Style="{DynamicResource DropShadowEffectCardStyle}"
+                    Background="{Binding Status, Converter={StaticResource DeviceStatusToBrushConverter}}">
+                <Grid VerticalAlignment="Center"
+                      HorizontalAlignment="Center">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Text="執行狀態"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Foreground="#333333"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,8" />
+
+                    <TextBlock Grid.Row="1"
+                               Text=""
+                               FontSize="18"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource PrimaryBrush}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                    
+                </Grid>
+            </Border>
+
+            <!-- 操作模式 -->
+            <Border Style="{DynamicResource DropShadowEffectCardStyle}">
+                <Grid VerticalAlignment="Center"
+                      HorizontalAlignment="Center">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Text="操作模式"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Foreground="#333333"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,8" />
+
+                    <TextBlock Grid.Row="1"
+                               Text="{Binding OperatingMode}"
+                               FontSize="18"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource PrimaryBrush}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                    
+                </Grid>
+            </Border>
+
+            <!-- 主程式 -->
+            <Border Style="{DynamicResource DropShadowEffectCardStyle}">
+                <Grid VerticalAlignment="Center"
+                      HorizontalAlignment="Center">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Text="主程式"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Foreground="#333333"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,8" />
+
+                    <TextBlock Grid.Row="1"
+                               Text="{Binding MainProgramName}"
+                               FontSize="18"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource PrimaryBrush}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                    
+                </Grid>
+            </Border>
+
+            <!-- 執行程式 -->
+            <Border Style="{DynamicResource DropShadowEffectCardStyle}">
+                <Grid VerticalAlignment="Center"
+                      HorizontalAlignment="Center">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Text="執行程式"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Foreground="#333333"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,8" />
+
+                    <TextBlock Grid.Row="1"
+                               Text="{Binding ExecutingProgramName}"
+                               FontSize="18"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource PrimaryBrush}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                    
+                </Grid>
+            </Border>
+
+            <!-- 主軸轉速 -->
+            <Border Style="{DynamicResource DropShadowEffectCardStyle}">
+                <Grid VerticalAlignment="Center"
+                      HorizontalAlignment="Center">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Text="主軸轉速"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Foreground="#333333"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,8" />
+
+                    <TextBlock Grid.Row="1"
+                               HorizontalAlignment="Center">
+                        <Run Text="{Binding SpeedActual}"
+                             FontSize="18"
+                             FontWeight="Bold"
+                             Foreground="{StaticResource PrimaryBrush}" />
+                        <Run Text=" rpm"
+                             FontSize="12"
+                             FontWeight="SemiBold"
+                             Foreground="#666666" />
+                    </TextBlock>
+                    
+                </Grid>
+            </Border>
+
+            <!-- 主軸進給 -->
+            <Border Style="{DynamicResource DropShadowEffectCardStyle}">
+                <Grid VerticalAlignment="Center"
+                      HorizontalAlignment="Center">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Text="主軸進給"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Foreground="#333333"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,8" />
+
+                    <TextBlock Grid.Row="1"
+                               HorizontalAlignment="Center">
+                        <Run Text="{Binding FeedRateActual}"
+                             FontSize="18"
+                             FontWeight="Bold"
+                             Foreground="{StaticResource PrimaryBrush}" />
+                        <Run Text=" mm/min"
+                             FontSize="12"
+                             FontWeight="SemiBold"
+                             Foreground="#666666" />
+                    </TextBlock>
+                    
+                </Grid>
+            </Border>
+
+            <!-- 主軸負載 -->
+            <Border Style="{DynamicResource DropShadowEffectCardStyle}">
+                <Grid VerticalAlignment="Center"
+                      HorizontalAlignment="Center">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Text="主軸負載"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Foreground="#333333"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,8" />
+
+                    <TextBlock Grid.Row="1"
+                               HorizontalAlignment="Center">
+                        <Run Text="{Binding LoadPercentage}"
+                             FontSize="18"
+                             FontWeight="Bold"
+                             Foreground="{StaticResource PrimaryBrush}" />
+                        <Run Text=" %"
+                             FontSize="12"
+                             FontWeight="SemiBold"
+                             Foreground="#666666" />
+                    </TextBlock>
+
+                </Grid>
+            </Border>
+
+            <!-- 主軸轉速倍率 -->
+            <Border Style="{DynamicResource DropShadowEffectCardStyle}">
+                <Grid VerticalAlignment="Center"
+                      HorizontalAlignment="Center">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Text="主軸轉速倍率"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Foreground="#333333"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,8" />
+
+                    <TextBlock Grid.Row="1"
+                               HorizontalAlignment="Center">
+                        <Run Text="{Binding SpeedPercentage}"
+                             FontSize="18"
+                             FontWeight="Bold"
+                             Foreground="{StaticResource PrimaryBrush}" />
+                        <Run Text=" %"
+                             FontSize="12"
+                             FontWeight="SemiBold"
+                             Foreground="#666666" />
+                    </TextBlock>
+
+                </Grid>
+            </Border>
+
+            <!-- 主軸進給倍率 -->
+            <Border Style="{DynamicResource DropShadowEffectCardStyle}">
+                <Grid VerticalAlignment="Center"
+                      HorizontalAlignment="Center">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Text="主軸進給倍率"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Foreground="#333333"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,8" />
+
+                    <TextBlock Grid.Row="1"
+                               HorizontalAlignment="Center">
+                        <Run Text="{Binding FeedRatePercentage}"
+                             FontSize="18"
+                             FontWeight="Bold"
+                             Foreground="{StaticResource PrimaryBrush}" />
+                        <Run Text=" %"
+                             FontSize="12"
+                             FontWeight="SemiBold"
+                             Foreground="#666666" />
+                    </TextBlock>
+
+                </Grid>
+            </Border>
+
+            <!-- 主軸快速進給倍率 -->
+            <Border Style="{DynamicResource DropShadowEffectCardStyle}">
+                <Grid VerticalAlignment="Center"
+                      HorizontalAlignment="Center">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Text="主軸快速進給倍率"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Foreground="#333333"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,8" />
+
+                    <TextBlock Grid.Row="1"
+                               HorizontalAlignment="Center">
+                        <Run Text="{Binding FeedRateRapidPercentage}"
+                             FontSize="18"
+                             FontWeight="Bold"
+                             Foreground="{StaticResource PrimaryBrush}" />
+                        <Run Text=" %"
+                             FontSize="12"
+                             FontWeight="SemiBold"
+                             Foreground="#666666" />
+                    </TextBlock>
+
+                </Grid>
+            </Border>
+
+        </UniformGrid>
+
+        <!-- 加工座標相關 -->
+        <UniformGrid Grid.Column="1"
+                     Grid.Row="1"
+                     Columns="2"
+                     Rows="2">
+
+            <!-- 機械座標 -->
+            <Border Style="{DynamicResource DropShadowEffectCardStyle}">
+                <Grid>
+                    
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Text="機械座標"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               HorizontalAlignment="Center"/>
+
+                    <ItemsControl Grid.Row="1"
+                                  ItemsSource="{Binding MachinePosition}">
+                        
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Rows="3"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,6">
+                                    
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Text="{Binding Key}"
+                                               FontSize="13"
+                                               Foreground="#8A8A8A"
+                                               VerticalAlignment="Bottom"
+                                               HorizontalAlignment="Center"/>
+
+                                    <TextBlock Grid.Column="1"
+                                               Text="{Binding Value, StringFormat=F3}"
+                                               FontSize="14"
+                                               FontWeight="Bold"
+                                               Foreground="{StaticResource PrimaryBrush}"
+                                               VerticalAlignment="Bottom"
+                                               HorizontalAlignment="Center"/>
+
+                                    <Border Grid.ColumnSpan="2"
+                                            Height="1"
+                                            Background="#E0E0E0"
+                                            VerticalAlignment="Bottom"
+                                            Margin="12,0"/>
+                                    
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        
+                    </ItemsControl>
+                    
+                </Grid>
+            </Border>
+
+            <!-- 絕對座標 -->
+            <Border Style="{DynamicResource DropShadowEffectCardStyle}">
+                <Grid>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Text="絕對座標"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               HorizontalAlignment="Center"/>
+
+                    <ItemsControl Grid.Row="1"
+                                  ItemsSource="{Binding AbsolutePosition}">
+
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Rows="3"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,6">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Text="{Binding Key}"
+                                               FontSize="13"
+                                               Foreground="#8A8A8A"
+                                               VerticalAlignment="Bottom"
+                                               HorizontalAlignment="Center"/>
+
+                                    <TextBlock Grid.Column="1"
+                                               Text="{Binding Value, StringFormat=F3}"
+                                               FontSize="14"
+                                               FontWeight="Bold"
+                                               Foreground="{StaticResource PrimaryBrush}"
+                                               VerticalAlignment="Bottom"
+                                               HorizontalAlignment="Center"/>
+
+                                    <Border Grid.ColumnSpan="2"
+                                            Height="1"
+                                            Background="#E0E0E0"
+                                            VerticalAlignment="Bottom"
+                                            Margin="12,0"/>
+
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+
+                    </ItemsControl>
+
+                </Grid>
+            </Border>
+
+            <!-- 相對座標 -->
+            <Border Style="{DynamicResource DropShadowEffectCardStyle}">
+                <Grid>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Text="相對座標"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               HorizontalAlignment="Center"/>
+
+                    <ItemsControl Grid.Row="1"
+                                  ItemsSource="{Binding RelativePosition}">
+
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Rows="3"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,6">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Text="{Binding Key}"
+                                               FontSize="13"
+                                               Foreground="#8A8A8A"
+                                               VerticalAlignment="Bottom"
+                                               HorizontalAlignment="Center"/>
+
+                                    <TextBlock Grid.Column="1"
+                                               Text="{Binding Value, StringFormat=F3}"
+                                               FontSize="14"
+                                               FontWeight="Bold"
+                                               Foreground="{StaticResource PrimaryBrush}"
+                                               VerticalAlignment="Bottom"
+                                               HorizontalAlignment="Center"/>
+
+                                    <Border Grid.ColumnSpan="2"
+                                            Height="1"
+                                            Background="#E0E0E0"
+                                            VerticalAlignment="Bottom"
+                                            Margin="12,0"/>
+
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+
+                    </ItemsControl>
+
+                </Grid>
+            </Border>
+
+            <!-- 剩餘距離 -->
+            <Border Style="{DynamicResource DropShadowEffectCardStyle}">
+                <Grid>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Text="剩餘距離"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               HorizontalAlignment="Center"/>
+
+                    <ItemsControl Grid.Row="1"
+                                  ItemsSource="{Binding DistanceToGo}">
+
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Rows="3"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,6">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Text="{Binding Key}"
+                                               FontSize="13"
+                                               Foreground="#8A8A8A"
+                                               VerticalAlignment="Bottom"
+                                               HorizontalAlignment="Center"/>
+
+                                    <TextBlock Grid.Column="1"
+                                               Text="{Binding Value, StringFormat=F3}"
+                                               FontSize="14"
+                                               FontWeight="Bold"
+                                               Foreground="{StaticResource PrimaryBrush}"
+                                               VerticalAlignment="Bottom"
+                                               HorizontalAlignment="Center"/>
+
+                                    <Border Grid.ColumnSpan="2"
+                                            Height="1"
+                                            Background="#E0E0E0"
+                                            VerticalAlignment="Bottom"
+                                            Margin="12,0"/>
+
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+
+                    </ItemsControl>
+
+                </Grid>
+            </Border>
+
+        </UniformGrid>
+
+        <!-- 機台運行時間表 -->
+        <Border Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Grid.Row="2"
+                Style="{DynamicResource DropShadowEffectCardStyle}">
+
+            <Grid>
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0"
+                           Text="本日機台運行時間表"
+                           FontSize="14"
+                           FontWeight="SemiBold"
+                           Foreground="#333333"
+                           HorizontalAlignment="Center"/>
+
+                <StackPanel Grid.Row="1"
+                            VerticalAlignment="Center">
+
+                    <!-- 狀態條 -->
+                    <Border Grid.Row="1"
+                            x:Name="StatusBarContainerBorder"
+                            BorderBrush="Gray"
+                            BorderThickness="1"
+                            Height="50">
+
+                        <ItemsControl ItemsSource="{Binding RuntimeRecords}">
+                            
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Height="30"
+                                            Background="{Binding RunStatus, Converter={StaticResource DeviceStatusToBrushConverter}}">
+                                        <Border.Width>
+                                            <MultiBinding Converter="{StaticResource RuntimeDurationHourToBarWidthConverter}">
+                                                <Binding Path="RunDuration"/>
+                                                <Binding Path="ActualWidth" ElementName="StatusBarContainerBorder"/>
+                                            </MultiBinding>
+                                        </Border.Width>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            
+                        </ItemsControl>
+                        
+                    </Border>
+
+                    <!-- 時間刻度 -->
+                    <Grid Height="20">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- 刻度線 -->
+                        <Rectangle Grid.Column="0" Width="1" Height="6" Fill="Gray" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Rectangle Grid.Column="1" Width="1" Height="6" Fill="Gray" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Rectangle Grid.Column="2" Width="1" Height="6" Fill="Gray" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Rectangle Grid.Column="3" Width="1" Height="6" Fill="Gray" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Rectangle Grid.Column="4" Width="1" Height="6" Fill="Gray" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Rectangle Grid.Column="5" Width="1" Height="6" Fill="Gray" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Rectangle Grid.Column="6" Width="1" Height="6" Fill="Gray" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Rectangle Grid.Column="7" Width="1" Height="6" Fill="Gray" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Rectangle Grid.Column="8" Width="1" Height="6" Fill="Gray" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Rectangle Grid.Column="9" Width="1" Height="6" Fill="Gray" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Rectangle Grid.Column="10" Width="1" Height="6" Fill="Gray" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Rectangle Grid.Column="11" Width="1" Height="6" Fill="Gray" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Rectangle Grid.Column="12" Width="1" Height="6" Fill="Gray" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Rectangle Grid.Column="13" Width="1" Height="6" Fill="Gray" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Rectangle Grid.Column="14" Width="1" Height="6" Fill="Gray" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Rectangle Grid.Column="15" Width="1" Height="6" Fill="Gray" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Rectangle Grid.Column="16" Width="1" Height="6" Fill="Gray" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Rectangle Grid.Column="17" Width="1" Height="6" Fill="Gray" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Rectangle Grid.Column="18" Width="1" Height="6" Fill="Gray" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Rectangle Grid.Column="19" Width="1" Height="6" Fill="Gray" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Rectangle Grid.Column="20" Width="1" Height="6" Fill="Gray" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Rectangle Grid.Column="21" Width="1" Height="6" Fill="Gray" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Rectangle Grid.Column="22" Width="1" Height="6" Fill="Gray" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Rectangle Grid.Column="23" Width="1" Height="6" Fill="Gray" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Rectangle Grid.Column="23" Width="1" Height="6" Fill="Gray" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+
+                        <!-- 刻度文字 -->
+                        <TextBlock Text="0" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontSize="10"/>
+                        <TextBlock Text="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10"/>
+                        <TextBlock Text="2" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10"/>
+                        <TextBlock Text="3" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10"/>
+                        <TextBlock Text="4" Grid.Column="3" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10"/>
+                        <TextBlock Text="5" Grid.Column="4" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10"/>
+                        <TextBlock Text="6" Grid.Column="5" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10"/>
+                        <TextBlock Text="7" Grid.Column="6" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10"/>
+                        <TextBlock Text="8" Grid.Column="7" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10"/>
+                        <TextBlock Text="9" Grid.Column="8" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10"/>
+                        <TextBlock Text="10" Grid.Column="9" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10"/>
+                        <TextBlock Text="11" Grid.Column="10" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10"/>
+                        <TextBlock Text="12" Grid.Column="11" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10"/>
+                        <TextBlock Text="13" Grid.Column="12" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10"/>
+                        <TextBlock Text="14" Grid.Column="13" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10"/>
+                        <TextBlock Text="15" Grid.Column="14" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10"/>
+                        <TextBlock Text="16" Grid.Column="15" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10"/>
+                        <TextBlock Text="17" Grid.Column="16" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10"/>
+                        <TextBlock Text="18" Grid.Column="17" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10"/>
+                        <TextBlock Text="19" Grid.Column="18" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10"/>
+                        <TextBlock Text="20" Grid.Column="19" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10"/>
+                        <TextBlock Text="21" Grid.Column="20" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10"/>
+                        <TextBlock Text="22" Grid.Column="21" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10"/>
+                        <TextBlock Text="23" Grid.Column="22" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10"/>
+                        <TextBlock Text="24" Grid.Column="23" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="10"/>
+                        
+                    </Grid>
+
+                </StackPanel>
+
+                <StackPanel Grid.Row="2"
+                            Orientation="Horizontal">
+
+                    <TextBlock Grid.Row="1"
+                               HorizontalAlignment="Center"
+                               Margin ="0,0,10,0">
+                        <Run Text="運轉: "
+                             FontSize="14"
+                             FontWeight="SemiBold"
+                             Foreground="#4CAF50"/>
+                        <Run Text="{Binding RunningUtilization, StringFormat={}{0:P0}}"
+                             FontSize="14"
+                             FontWeight="Bold"
+                             Foreground="#4CAF50"/>
+                    </TextBlock>
+
+                    <TextBlock Grid.Row="1"
+                               HorizontalAlignment="Center"
+                               Margin ="10,0">
+                        <Run Text="待機: "
+                             FontSize="14"
+                             FontWeight="SemiBold"
+                             Foreground="#FF9800"/>
+                        <Run Text="{Binding StandbyUtilization, StringFormat={}{0:P0}}"
+                             FontSize="14"
+                             FontWeight="Bold"
+                             Foreground="#FF9800"/>
+                    </TextBlock>
+
+                    <TextBlock Grid.Row="1"
+                               HorizontalAlignment="Center"
+                               Margin ="10,0">
+                        <Run Text="報警: "
+                             FontSize="14"
+                             FontWeight="SemiBold"
+                             Foreground="#F44336"/>
+                        <Run Text="{Binding AlarmUtilization, StringFormat={}{0:P0}}"
+                             FontSize="14"
+                             FontWeight="Bold"
+                             Foreground="#F44336"/>
+                    </TextBlock>
+
+                    <TextBlock Grid.Row="1"
+                               HorizontalAlignment="Center"
+                               Margin ="10,0">
+                        <Run Text="離線: "
+                             FontSize="14"
+                             FontWeight="SemiBold"
+                             Foreground="#9E9E9E"/>
+                        <Run Text="{Binding OfflineUtilization, StringFormat={}{0:P0}}"
+                             FontSize="14"
+                             FontWeight="Bold"
+                             Foreground="#9E9E9E"/>
+                    </TextBlock>
+
+                </StackPanel>
+
+            </Grid>            
+
+        </Border>
+
+    </Grid>
+</UserControl>

@@ -8,11 +8,11 @@
         /// <summary>
         /// 暫時停止
         /// </summary>
-        Temporary,
+        Temporary = 1,
 
         /// <summary>
         /// 設備被刪除
         /// </summary>
-        Removed
+        Removed = 2
     }
 }

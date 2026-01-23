@@ -3,6 +3,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:IIoTHub.App.Wpf.ViewModels.DeviceSettingWizardDialog"
+        xmlns:views="clr-namespace:IIoTHub.App.Wpf.Views.DeviceSettingWizardDialog"
         mc:Ignorable="d"
         Icon="pack://application:,,,/Resources/App.ico"
         Title="設備設定"
@@ -19,9 +21,18 @@
 
         <!--頁面內容-->
         <ContentControl Grid.Row="0"
-                        Content="{Binding CurrentPageView}"
+                        Content="{Binding CurrentPageViewModel}"
                         HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"/>
+                        VerticalAlignment="Stretch">
+            <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type viewModels:DeviceSettingWizardPage1ViewModel}">
+                    <views:DeviceSettingWizardPage1View />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:DeviceSettingWizardPage2ViewModel}">
+                    <views:DeviceSettingWizardPage2View />
+                </DataTemplate>
+            </ContentControl.Resources>
+        </ContentControl>
 
         <!--導覽按鈕列-->
         <StackPanel Grid.Row="1"

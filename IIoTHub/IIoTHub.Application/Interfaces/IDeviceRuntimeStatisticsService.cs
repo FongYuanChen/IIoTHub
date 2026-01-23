@@ -1,4 +1,5 @@
-﻿using IIoTHub.Domain.Models;
+﻿using IIoTHub.Application.Models;
+using IIoTHub.Domain.Enums;
 
 namespace IIoTHub.Application.Interfaces
 {
@@ -8,18 +9,18 @@ namespace IIoTHub.Application.Interfaces
     public interface IDeviceRuntimeStatisticsService
     {
         /// <summary>
-        /// 處理設備快照事件，依據狀態變化更新設備運轉紀錄
+        /// 設備運轉統計摘要變化事件
         /// </summary>
-        /// <param name="snapshot"></param>
-        Task OnSnapshotAsync(DeviceSnapshot snapshot);
+        event EventHandler<DeviceRuntimeSummaryChangedEventArgs> DeviceRuntimeSummaryChanged;
 
         /// <summary>
-        /// 取得指定設備在時間區間內的稼動率 (稼動率定義為 Running 狀態時間佔總時間的比例)
+        /// 通知服務設備的運轉狀態已發生變化。
+        /// 此方法由設備監控服務呼叫。
         /// </summary>
         /// <param name="deviceId"></param>
-        /// <param name="from"></param>
-        /// <param name="to"></param>
+        /// <param name="runStatus"></param>
+        /// <param name="timestamp"></param>
         /// <returns></returns>
-        Task<double> GetUtilizationAsync(Guid deviceId, DateTime? from = null, DateTime? to = null);
+        Task OnRuntimeStatusChangedAsync(Guid deviceId, DeviceRunStatus runStatus, DateTime timestamp);
     }
 }

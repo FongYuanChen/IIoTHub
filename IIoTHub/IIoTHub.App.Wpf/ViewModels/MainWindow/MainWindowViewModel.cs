@@ -17,9 +17,9 @@ namespace IIoTHub.App.Wpf.ViewModels.MainWindow
         }
 
         /// <summary>
-        /// 當前顯示的內容頁面
+        /// 當前的ViewModel
         /// </summary>
-        public object CurrentView => _mainWindowNavigationService.CurrentView;
+        public object CurrentViewModel => _mainWindowNavigationService.CurrentViewModel;
 
         /// <summary>
         /// 導航到 Dashboard 的命令
@@ -27,7 +27,7 @@ namespace IIoTHub.App.Wpf.ViewModels.MainWindow
         public ICommand ShowDashboardCommand => new RelayCommand(async _ =>
         {
             await _mainWindowNavigationService.NavigateToDashboardAsync();
-            OnPropertyChanged(nameof(CurrentView));
+            OnPropertyChanged(nameof(CurrentViewModel));
         });
     }
 }

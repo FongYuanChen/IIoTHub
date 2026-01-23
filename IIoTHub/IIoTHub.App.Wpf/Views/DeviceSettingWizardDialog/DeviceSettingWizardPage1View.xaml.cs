@@ -1,14 +1,12 @@
-﻿using IIoTHub.App.Wpf.ViewModels.DeviceSettingWizardDialog;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace IIoTHub.App.Wpf.Views.DeviceSettingWizardDialog
 {
     public partial class DeviceSettingWizardPage1View : UserControl
     {
-        public DeviceSettingWizardPage1View(DeviceSettingWizardPage1ViewModel viewModel)
+        public DeviceSettingWizardPage1View()
         {
             InitializeComponent();
-            DataContext = viewModel;
         }
     }
 }

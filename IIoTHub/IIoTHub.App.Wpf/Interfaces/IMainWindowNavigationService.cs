@@ -1,4 +1,6 @@
-﻿namespace IIoTHub.App.Wpf.Services
+﻿using IIoTHub.App.Wpf.ViewModels;
+
+namespace IIoTHub.App.Wpf.Services
 {
     /// <summary>
     /// 主視窗導覽服務介面
@@ -6,9 +8,9 @@
     public interface IMainWindowNavigationService
     {
         /// <summary>
-        /// 目前主視窗顯示的內容
+        /// 當前的ViewModel
         /// </summary>
-        object CurrentView { get; }
+        ViewModelBase CurrentViewModel { get; }
 
         /// <summary>
         /// 導覽到 Dashboard 視圖

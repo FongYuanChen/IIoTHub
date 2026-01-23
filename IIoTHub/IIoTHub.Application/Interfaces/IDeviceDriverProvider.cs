@@ -1,5 +1,4 @@
-﻿using IIoTHub.Domain.Enums;
-using IIoTHub.Domain.Interfaces.DeviceDrivers;
+﻿using IIoTHub.Domain.Interfaces.DeviceDrivers;
 
 namespace IIoTHub.Application.Interfaces
 {
@@ -9,18 +8,42 @@ namespace IIoTHub.Application.Interfaces
     public interface IDeviceDriverProvider
     {
         /// <summary>
-        /// 依照設備類別取得對應的驅動器列表
+        /// 取得所有機台驅動器
         /// </summary>
-        /// <param name="categoryType"></param>
         /// <returns></returns>
-        IEnumerable<IDeviceDriver> GetDrivers(DeviceCategoryType categoryType);
+        IEnumerable<IMachineDriver> GetMachineDrivers();
 
         /// <summary>
-        /// 取得指定設備類別及名稱的驅動器
+        /// 取得指定的機台驅動器
         /// </summary>
-        /// <param name="categoryType"></param>
-        /// <param name="name"></param>
+        /// <param name="driverName"></param>
         /// <returns></returns>
-        IDeviceDriver GetDriver(DeviceCategoryType categoryType, string name);
+        IMachineDriver GetMachineDriver(string driverName);
+
+        /// <summary>
+        /// 取得所有料倉驅動器
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<IMagazineDriver> GetMagazineDrivers();
+
+        /// <summary>
+        /// 取得指定的料倉驅動器
+        /// </summary>
+        /// <param name="driverName"></param>
+        /// <returns></returns>
+        IMagazineDriver GetMagazineDriver(string driverName);
+
+        /// <summary>
+        /// 取得所有機械手驅動器
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<IRobotDriver> GetRobotDrivers();
+
+        /// <summary>
+        /// 取得指定的機械手驅動器
+        /// </summary>
+        /// <param name="driverName"></param>
+        /// <returns></returns>
+        IRobotDriver GetRobotDriver(string driverName);
     }
 }

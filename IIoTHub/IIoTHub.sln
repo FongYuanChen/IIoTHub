@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IIoTHub.Infrastructure", "I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IIoTHub.Shared", "IIoTHub.Shared\IIoTHub.Shared.csproj", "{1533E14D-B86D-482F-B915-4084EB87B025}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IIoTHub.Infrastructure.DeviceDriverHost.Abstractions", "IIoTHub.Infrastructure.DeviceDriverHost.Abstractions\IIoTHub.Infrastructure.DeviceDriverHost.Abstractions.csproj", "{6935E8CA-6B37-428B-93A8-35D1E944CB5D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IIoTHub.Infrastructure.DeviceDriverHost.Focas.x86", "IIoTHub.Infrastructure.DeviceDriverHost.Focas.x86\IIoTHub.Infrastructure.DeviceDriverHost.Focas.x86.csproj", "{EA6FD0DE-CF3B-A377-0B5B-180A37A2DE3F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{1533E14D-B86D-482F-B915-4084EB87B025}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1533E14D-B86D-482F-B915-4084EB87B025}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1533E14D-B86D-482F-B915-4084EB87B025}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6935E8CA-6B37-428B-93A8-35D1E944CB5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6935E8CA-6B37-428B-93A8-35D1E944CB5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6935E8CA-6B37-428B-93A8-35D1E944CB5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6935E8CA-6B37-428B-93A8-35D1E944CB5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA6FD0DE-CF3B-A377-0B5B-180A37A2DE3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA6FD0DE-CF3B-A377-0B5B-180A37A2DE3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA6FD0DE-CF3B-A377-0B5B-180A37A2DE3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA6FD0DE-CF3B-A377-0B5B-180A37A2DE3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

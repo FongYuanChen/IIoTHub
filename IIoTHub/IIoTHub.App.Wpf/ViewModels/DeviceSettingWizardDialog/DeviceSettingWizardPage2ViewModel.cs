@@ -12,16 +12,16 @@ namespace IIoTHub.App.Wpf.ViewModels.DeviceSettingWizardDialog
         public DeviceSettingWizardPage2ViewModel(IDeviceDriverMetadataProvider deviceDriverMetadataProvider,
                                                  DeviceSettingWizardDialogContext context)
         {
-            context.ConnectionSettings
+            context.ParameterSettings
                 ??= deviceDriverMetadataProvider.GetDriverMetadata(context.DeviceCategoryType)
-                                                .FirstOrDefault(info => info.DisplayName == context.DeviceDriver)?.ConnectionSettings
-                                                .Select(setting => new DeviceConnectionSettingState(setting))
+                                                .FirstOrDefault(info => info.Name == context.DeviceDriver)?.ParameterSettings
+                                                .Select(setting => new DeviceDriverParameterSettingState(setting))
                                                 .ToList();
 
             DriverDisplayName = context.DeviceDriver;
-            ConnectionSettings
-                = new ObservableCollection<DeviceConnectionSettingViewModel>(
-                    context.ConnectionSettings.Select(setting => new DeviceConnectionSettingViewModel(setting)));
+            DriverParameterSettings
+                = new ObservableCollection<DeviceDriverParameterSettingViewModel>(
+                    context.ParameterSettings.Select(setting => new DeviceDriverParameterSettingViewModel(setting)));
         }
 
         /// <summary>
@@ -32,42 +32,42 @@ namespace IIoTHub.App.Wpf.ViewModels.DeviceSettingWizardDialog
         /// <summary>
         /// 設備連線設定列表
         /// </summary>
-        public ObservableCollection<DeviceConnectionSettingViewModel> ConnectionSettings { get; }
+        public ObservableCollection<DeviceDriverParameterSettingViewModel> DriverParameterSettings { get; }
     }
 
     /// <summary>
     /// 設備連線設定的 ViewModel
     /// </summary>
-    public class DeviceConnectionSettingViewModel : ViewModelBase
+    public class DeviceDriverParameterSettingViewModel : ViewModelBase
     {
-        private readonly DeviceConnectionSettingState _connectionSetting;
+        private readonly DeviceDriverParameterSettingState _parameterSetting;
 
-        public DeviceConnectionSettingViewModel(DeviceConnectionSettingState connectionSetting)
+        public DeviceDriverParameterSettingViewModel(DeviceDriverParameterSettingState parameterSetting)
         {
-            _connectionSetting = connectionSetting;
+            _parameterSetting = parameterSetting;
         }
 
         /// <summary>
         /// 設定名稱
         /// </summary>
-        public string DisplayName => _connectionSetting.DisplayName;
+        public string DisplayName => _parameterSetting.DisplayName;
 
         /// <summary>
         /// 設定說明
         /// </summary>
-        public string Note => _connectionSetting.Note;
+        public string Note => _parameterSetting.Note;
 
         /// <summary>
         /// 設定值
         /// </summary>
         public string Value
         {
-            get => _connectionSetting.Value;
+            get => _parameterSetting.Value;
             set
             {
-                if (_connectionSetting.Value == value)
+                if (_parameterSetting.Value == value)
                     return;
-                _connectionSetting.Value = value;
+                _parameterSetting.Value = value;
                 OnPropertyChanged(nameof(Value));
             }
         }

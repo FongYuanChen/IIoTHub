@@ -5,28 +5,21 @@
     /// </summary>
     public class DeviceDriverSetting
     {
-        public DeviceDriverSetting(string displayName,
-                                   List<DeviceConnectionSetting> connectionSettings,
-                                   List<DeviceVariableSetting> variableSettings)
+        public DeviceDriverSetting(string name,
+                                   List<DeviceDriverParameterSetting> parameterSettings)
         {
-            DisplayName = displayName;
-            ConnectionSettings = connectionSettings ?? [];
-            VariableSettings = variableSettings ?? [];
+            Name = name;
+            ParameterSettings = parameterSettings ?? [];
         }
 
         /// <summary>
-        /// 驅動顯示名稱
+        /// 驅動器名稱 (唯一)
         /// </summary>
-        public string DisplayName { get; }
+        public string Name { get; }
 
         /// <summary>
-        /// 設備連線設定清單
+        /// 驅動器參數設定項目列表
         /// </summary>
-        public IReadOnlyList<DeviceConnectionSetting> ConnectionSettings { get; }
-
-        /// <summary>
-        /// 設備變數設定清單
-        /// </summary>
-        public IReadOnlyList<DeviceVariableSetting> VariableSettings { get; }
+        public IReadOnlyList<DeviceDriverParameterSetting> ParameterSettings { get; }
     }
 }

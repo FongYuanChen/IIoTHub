@@ -34,22 +34,16 @@ namespace IIoTHub.App.Wpf.Contexts
         public string DeviceDriver { get; set; }
 
         /// <summary>
-        /// 設備連線設定狀態列表
+        /// 設備參數設定狀態列表
         /// </summary>
-        public List<DeviceConnectionSettingState> ConnectionSettings { get; set; }
-
-        /// <summary>
-        /// 設備變數設定狀態列表
-        /// </summary>
-        public List<DeviceVariableSettingState> VariableSettings { get; set; }
+        public List<DeviceDriverParameterSettingState> ParameterSettings { get; set; }
 
         /// <summary>
         /// 重置與 Driver 相關的設定內容
         /// </summary>
         public void ResetDeviceDriverSettings()
         {
-            ConnectionSettings = null;
-            VariableSettings = null;
+            ParameterSettings = null;
         }
 
         /// <summary>
@@ -74,9 +68,8 @@ namespace IIoTHub.App.Wpf.Contexts
                 DeviceName = setting.Name,
                 DeviceImageBase64String = setting.ImageBase64String,
                 DeviceCategoryType = setting.CategoryType,
-                DeviceDriver = setting.DriverSetting.DisplayName,
-                ConnectionSettings = setting.DriverSetting.ConnectionSettings.Select(connectionSetting => new DeviceConnectionSettingState(connectionSetting)).ToList(),
-                VariableSettings = setting.DriverSetting.VariableSettings.Select(variableSetting => new DeviceVariableSettingState(variableSetting)).ToList()
+                DeviceDriver = setting.DriverSetting.Name,
+                ParameterSettings = setting.DriverSetting.ParameterSettings.Select(parameterSetting => new DeviceDriverParameterSettingState(parameterSetting)).ToList()
             };
         }
 
@@ -91,89 +84,47 @@ namespace IIoTHub.App.Wpf.Contexts
                                  DeviceCategoryType,
                                  new DeviceDriverSetting(
                                      DeviceDriver,
-                                     ConnectionSettings.Select(setting => setting.ConvertToDeviceConnectionSetting()).ToList(),
-                                     VariableSettings.Select(setting => setting.ConvertToDeviceVariableSetting()).ToList()));
+                                     ParameterSettings.Select(setting => setting.ConvertToDeviceDriverParameterSetting()).ToList()));
     }
 
     /// <summary>
-    /// DeviceConnectionSetting 在 Wizard 中的狀態封裝 (支援編輯時的暫存與轉換)
+    /// DeviceDriverParameterSetting 在 Wizard 中的狀態封裝 (支援編輯時的暫存與轉換)
     /// </summary>
-    public class DeviceConnectionSettingState
+    public class DeviceDriverParameterSettingState
     {
-        public DeviceConnectionSettingState(DeviceConnectionSetting connectionSetting)
+        public DeviceDriverParameterSettingState(DeviceDriverParameterSetting parameterSetting)
         {
-            Key = connectionSetting.Key;
-            DisplayName = connectionSetting.DisplayName;
-            Note = connectionSetting.Note;
-            Value = connectionSetting.Value;
+            Key = parameterSetting.Key;
+            DisplayName = parameterSetting.DisplayName;
+            Note = parameterSetting.Note;
+            Value = parameterSetting.Value;
         }
 
         /// <summary>
-        /// 連線設定的唯一 Key
+        /// 參數設定的唯一 Key
         /// </summary>
         public string Key { get; }
 
         /// <summary>
-        /// 連線設定顯示名稱
+        /// 參數設定顯示名稱
         /// </summary>
         public string DisplayName { get; }
 
         /// <summary>
-        /// 連線設定說明
+        /// 參數設定說明
         /// </summary>
         public string Note { get; }
 
         /// <summary>
-        /// 連線設定的值
+        /// 參數設定的值
         /// </summary>
         public string Value { get; set; }
 
         /// <summary>
-        /// 轉換回 DeviceConnectionSetting
+        /// 轉換回 DeviceDriverParameterSetting
         /// </summary>
         /// <returns></returns>
-        public DeviceConnectionSetting ConvertToDeviceConnectionSetting()
-            => new DeviceConnectionSetting(Key, DisplayName, Note, Value);
-    }
-
-    /// <summary>
-    /// DeviceVariableSetting 在 Wizard 中的狀態封裝 (支援編輯時的暫存與轉換)
-    /// </summary>
-    public class DeviceVariableSettingState
-    {
-        public DeviceVariableSettingState(DeviceVariableSetting variableSetting)
-        {
-            Key = variableSetting.Key;
-            DisplayName = variableSetting.DisplayName;
-            Note = variableSetting.Note;
-            Value = variableSetting.Value;
-        }
-
-        /// <summary>
-        /// 變數設定的唯一 Key
-        /// </summary>
-        public string Key { get; }
-
-        /// <summary>
-        /// 變數設定顯示名稱
-        /// </summary>
-        public string DisplayName { get; }
-
-        /// <summary>
-        /// 變數設定說明
-        /// </summary>
-        public string Note { get; }
-
-        /// <summary>
-        /// 變數設定的值
-        /// </summary>
-        public string Value { get; set; }
-
-        /// <summary>
-        /// 轉換回 DeviceVariableSetting
-        /// </summary>
-        /// <returns></returns>
-        public DeviceVariableSetting ConvertToDeviceVariableSetting()
-            => new DeviceVariableSetting(Key, DisplayName, Note, Value);
+        public DeviceDriverParameterSetting ConvertToDeviceDriverParameterSetting()
+            => new DeviceDriverParameterSetting(Key, DisplayName, Note, Value);
     }
 }

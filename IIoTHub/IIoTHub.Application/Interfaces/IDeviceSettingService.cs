@@ -28,8 +28,8 @@ namespace IIoTHub.Application.Interfaces
         /// <summary>
         /// 刪除指定的設備設定
         /// </summary>
-        /// <param name="id"></param>
-        Task DeleteAsync(Guid id);
+        /// <param name="deviceId"></param>
+        Task DeleteAsync(Guid deviceId);
 
         /// <summary>
         /// 取得所有設備設定
@@ -40,8 +40,8 @@ namespace IIoTHub.Application.Interfaces
         /// <summary>
         /// 取得指定的設備設定
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="deviceId"></param>
         /// <returns></returns>
-        Task<DeviceSetting> GetByIdAsync(Guid id);
+        Task<DeviceSetting> GetByIdAsync(Guid deviceId);
     }
 }

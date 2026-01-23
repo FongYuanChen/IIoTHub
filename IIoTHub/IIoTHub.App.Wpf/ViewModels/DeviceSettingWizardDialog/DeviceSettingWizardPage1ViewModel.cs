@@ -56,7 +56,7 @@ namespace IIoTHub.App.Wpf.ViewModels.DeviceSettingWizardDialog
                 : _defaultDeviceImageSource;
 
             var driverMetadata = _deviceDriverMetadataProvider.GetDriverMetadata(deviceCategoryType.Type);
-            var drivers = driverMetadata.Select(x => x.DisplayName);
+            var drivers = driverMetadata.Select(x => x.Name);
             DeviceDrivers.Clear();
             foreach (var driver in drivers)
             {
@@ -174,7 +174,7 @@ namespace IIoTHub.App.Wpf.ViewModels.DeviceSettingWizardDialog
             _type = type;
             _description = _type switch
             {
-                DeviceCategoryType.Machine => "機台",
+                DeviceCategoryType.Machine => "加工機",
                 DeviceCategoryType.Magazine => "料倉",
                 DeviceCategoryType.Robot => "機械手臂",
                 _ => _type.ToString()

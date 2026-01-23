@@ -1,24 +1,26 @@
-﻿namespace IIoTHub.App.Wpf.Services
+﻿using IIoTHub.App.Wpf.ViewModels;
+
+namespace IIoTHub.App.Wpf.Services
 {
     public class WizardDialogNavigation
     {
         private int _currentPageIndex;
-        private readonly List<Func<object>> _pageViewFactories;
+        private readonly List<Func<ViewModelBase>> _pageViewModelFactories;
 
-        public WizardDialogNavigation(List<Func<object>> pageViewFactories)
+        public WizardDialogNavigation(List<Func<ViewModelBase>> pageViewModelFactories)
         {
-            _pageViewFactories = pageViewFactories;
+            _pageViewModelFactories = pageViewModelFactories;
         }
 
         /// <summary>
-        /// 目前顯示的頁面
+        /// 目前的ViewModel
         /// </summary>
-        public object CurrentPageView => _pageViewFactories[_currentPageIndex]();
+        public object CurrentPageViewModel => _pageViewModelFactories[_currentPageIndex]();
 
         /// <summary>
         /// 是否可以往下一頁
         /// </summary>
-        public bool CanMoveNext => _currentPageIndex < _pageViewFactories.Count - 1;
+        public bool CanMoveNext => _currentPageIndex < _pageViewModelFactories.Count - 1;
 
         /// <summary>
         /// 是否可以往上一頁

@@ -38,9 +38,8 @@ namespace IIoTHub.App.Wpf.Services
             var viewModel = new DeviceSettingWizardDialogViewModel(
                 _deviceSettingService,
                 new WizardDialogNavigation([
-                    () => new DeviceSettingWizardPage1View(new DeviceSettingWizardPage1ViewModel(_imagePickerService, _deviceDriverMetadataProvider, context)),
-                    () => new DeviceSettingWizardPage2View(new DeviceSettingWizardPage2ViewModel(_deviceDriverMetadataProvider, context)),
-                    () => new DeviceSettingWizardPage3View(new DeviceSettingWizardPage3ViewModel(_deviceDriverMetadataProvider, context))
+                    () => new DeviceSettingWizardPage1ViewModel(_imagePickerService, _deviceDriverMetadataProvider, context),
+                    () => new DeviceSettingWizardPage2ViewModel(_deviceDriverMetadataProvider, context)
                 ]),
                 context);
 
