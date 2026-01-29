@@ -3,7 +3,7 @@
 namespace IIoTHub.Infrastructure.DeviceDriverHost.Abstractions.Focas.Requests
 {
     /// <summary>
-    /// OCAS 程式資訊請求
+    /// FOCAS 程式資訊請求
     /// </summary>
     public class FocasProgramInfoRequest : FocasBaseInfoRequest
     {

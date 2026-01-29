@@ -1,10 +1,10 @@
-﻿namespace IIoTHub.Infrastructure.DeviceDriverHost.Focas.x86.Hosts
+﻿namespace IIoTHub.Infrastructure.DeviceDriverHost.FCSB1224W000.x86.Hosts
 {
     public class Program
     {
         static async Task Main(string[] args)
         {
-            Console.Title = "DeviceDriverHost.Focas.x86";
+            Console.Title = "DeviceDriverHost.FCSB1224W000.x86";
 
             using var cts = new CancellationTokenSource();
 
@@ -14,9 +14,9 @@
                 cts.Cancel();
             };
 
-            var server = new FocasDriverPipeServer();
+            var server = new FCSB1224W000DriverPipeServer();
 
-            Console.WriteLine("FANUC Driver Host started.");
+            Console.WriteLine("FCSB1224W000 Driver Host started.");
             await server.RunAsync(cts.Token);
         }
     }

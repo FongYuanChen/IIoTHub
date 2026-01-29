@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <PlatformTarget>x86</PlatformTarget>
+    <ApplicationIcon>Resources\App.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IIoTHub.Infrastructure.DeviceDriverHost.Abstractions\IIoTHub.Infrastructure.DeviceDriverHost.Abstractions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Interop.EZNCAUTLib">
+      <HintPath>Interop.EZNCAUTLib.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

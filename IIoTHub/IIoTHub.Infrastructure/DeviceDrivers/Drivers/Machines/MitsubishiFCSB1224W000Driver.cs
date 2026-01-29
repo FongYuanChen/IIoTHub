@@ -2,10 +2,10 @@
 using IIoTHub.Domain.Interfaces.DeviceDrivers;
 using IIoTHub.Domain.Models.DeviceSettings;
 using IIoTHub.Domain.Models.DeviceSnapshots;
-using IIoTHub.Infrastructure.DeviceDriverHost.Abstractions.Focas;
-using IIoTHub.Infrastructure.DeviceDriverHost.Abstractions.Focas.Enums;
-using IIoTHub.Infrastructure.DeviceDriverHost.Abstractions.Focas.Requests;
-using IIoTHub.Infrastructure.DeviceDriverHost.Abstractions.Focas.Responses;
+using IIoTHub.Infrastructure.DeviceDriverHost.Abstractions.FCSB1224W000;
+using IIoTHub.Infrastructure.DeviceDriverHost.Abstractions.FCSB1224W000.Enums;
+using IIoTHub.Infrastructure.DeviceDriverHost.Abstractions.FCSB1224W000.Requests;
+using IIoTHub.Infrastructure.DeviceDriverHost.Abstractions.FCSB1224W000.Responses;
 using IIoTHub.Infrastructure.DeviceDriverHosts;
 using IIoTHub.Infrastructure.DeviceDriverHosts.Interfaces;
 using IIoTHub.Infrastructure.DeviceDriverHosts.Models;
@@ -13,20 +13,23 @@ using IIoTHub.Infrastructure.DeviceDrivers.Attributes;
 
 namespace IIoTHub.Infrastructure.DeviceDrivers.Drivers.Machines
 {
-    public class FanucFocasLibraryDriver : IMachineDriver
+    public class MitsubishiFCSB1224W000Driver : IMachineDriver
     {
-        public string Name => "FANUC FOCAS LIBRARY 驅動器";
+        public string Name => "Mitsubishi FCSB1224W000 驅動器";
 
         #region 參數設定
 
-        [ParameterSetting("DriverHost可執行檔完整路徑", "可執行檔 IIoTHub.Infrastructure.DeviceDriverHost.Focas.x86.exe 所在的完整路徑", "")]
+        [ParameterSetting("DriverHost可執行檔完整路徑", "可執行檔 IIoTHub.Infrastructure.DeviceDriverHost.FCSB1224W000.x86.exe 所在的完整路徑", "")]
         public string DriverHostExeFilePath { get; set; }
 
-        [ParameterSetting("IP 位址","", "127.0.0.1")]
+        [ParameterSetting("系統類型", "", "")]
+        public FCSB1224W000SystemType SystemType { get; set; } = FCSB1224W000SystemType.M800M;
+
+        [ParameterSetting("IP 位址", "", "127.0.0.1")]
         public string IpAddress { get; set; } = "127.0.0.1";
 
-        [ParameterSetting("通訊埠", "預設: 8193", "8193")]
-        public int Port { get; set; } = 8193;
+        [ParameterSetting("通訊埠", "預設: 683", "683")]
+        public int Port { get; set; } = 683;
 
         [ParameterSetting("超時時間", "單位: 秒", "10")]
         public int Timeout { get; set; } = 10;
@@ -37,7 +40,7 @@ namespace IIoTHub.Infrastructure.DeviceDrivers.Drivers.Machines
 
         private readonly IDeviceDriverHostManager _deviceDriverHostManager;
 
-        public FanucFocasLibraryDriver(IDeviceDriverHostManager deviceDriverHostManager)
+        public MitsubishiFCSB1224W000Driver(IDeviceDriverHostManager deviceDriverHostManager)
         {
             _deviceDriverHostManager = deviceDriverHostManager;
         }
@@ -55,37 +58,41 @@ namespace IIoTHub.Infrastructure.DeviceDrivers.Drivers.Machines
                     .ToDictionary(v => v.Key, v => v.Value);
 
                 var driverHostExeFilePath = GetDriverHostExeFilePath(parameters);
-                _deviceDriverHostManager.EnsureRunning(new DeviceDriverHostDescriptor(FocasPipeNames.DriverHostX86, driverHostExeFilePath));
+                _deviceDriverHostManager.EnsureRunning(new DeviceDriverHostDescriptor(FCSB1224W000PipeNames.DriverHostX86, driverHostExeFilePath));
 
-                TResponse SendRequest<TRequest, TResponse>(TRequest request) where TResponse : FocasBaseInfoResponse, new()
+                TResponse SendRequest<TRequest, TResponse>(TRequest request) where TResponse : FCSB1224W000BaseInfoResponse, new()
                 {
-                    var response = DeviceDriverHostClient.Send<TRequest, TResponse>(FocasPipeNames.DriverHostX86, request);
+                    var response = DeviceDriverHostClient.Send<TRequest, TResponse>(FCSB1224W000PipeNames.DriverHostX86, request);
                     if (!response.IsSuccess)
                         throw new InvalidOperationException("DriverHost回傳執行失敗!");
                     return response;
                 }
 
-                (var ipAddress, var port, var timeout) = GetConnectionSettings(parameters);
-                var stateInfoResponse = SendRequest<FocasStateInfoRequest, FocasStateInfoResponse>(new FocasStateInfoRequest
+                (var systemType, var ipAddress, var port, var timeout) = GetConnectionSettings(parameters);
+                var stateInfoResponse = SendRequest<FCSB1224W000StateInfoRequest, FCSB1224W000StateInfoResponse>(new FCSB1224W000StateInfoRequest
                 {
+                    SystemType = systemType,
                     IpAddress = ipAddress,
                     Port = port,
                     Timeout = timeout
                 });
-                var programInfoResponse = SendRequest<FocasProgramInfoRequest, FocasProgramInfoResponse>(new FocasProgramInfoRequest
+                var programInfoResponse = SendRequest<FCSB1224W000ProgramInfoRequest, FCSB1224W000ProgramInfoResponse>(new FCSB1224W000ProgramInfoRequest
                 {
+                    SystemType = systemType,
                     IpAddress = ipAddress,
                     Port = port,
                     Timeout = timeout
                 });
-                var spindleInfoResponse = SendRequest<FocasSpindleInfoRequest, FocasSpindleInfoResponse>(new FocasSpindleInfoRequest
+                var spindleInfoResponse = SendRequest<FCSB1224W000SpindleInfoRequest, FCSB1224W000SpindleInfoResponse>(new FCSB1224W000SpindleInfoRequest
                 {
+                    SystemType = systemType,
                     IpAddress = ipAddress,
                     Port = port,
                     Timeout = timeout
                 });
-                var positionInfoResponse = SendRequest<FocasPositionInfoRequest, FocasPositionInfoResponse>(new FocasPositionInfoRequest
+                var positionInfoResponse = SendRequest<FCSB1224W000PositionInfoRequest, FCSB1224W000PositionInfoResponse>(new FCSB1224W000PositionInfoRequest
                 {
+                    SystemType = systemType,
                     IpAddress = ipAddress,
                     Port = port,
                     Timeout = timeout
@@ -95,10 +102,10 @@ namespace IIoTHub.Infrastructure.DeviceDrivers.Drivers.Machines
                     deviceSetting.Id,
                     stateInfoResponse.StateInfo.RunStatus switch
                     {
-                        FocasRunStatus.Reset => DeviceRunStatus.Standby,
-                        FocasRunStatus.Stop => DeviceRunStatus.Running,
-                        FocasRunStatus.Hold => DeviceRunStatus.Running,
-                        FocasRunStatus.Alarm => DeviceRunStatus.Alarm,
+                        FCSB1224W000RunStatus.Reset => DeviceRunStatus.Standby,
+                        FCSB1224W000RunStatus.Stop => DeviceRunStatus.Running,
+                        FCSB1224W000RunStatus.Hold => DeviceRunStatus.Running,
+                        FCSB1224W000RunStatus.Alarm => DeviceRunStatus.Alarm,
                         _ => DeviceRunStatus.Offline
                     },
                     stateInfoResponse.StateInfo.OperatingMode,
@@ -111,7 +118,7 @@ namespace IIoTHub.Infrastructure.DeviceDrivers.Drivers.Machines
                     spindleInfoResponse.SpindleInfo.SpeedInfo.Percentage,
                     spindleInfoResponse.SpindleInfo.LoadInfo.Percentage,
                     positionInfoResponse.PositionInfo.MachinePosition,
-                    positionInfoResponse.PositionInfo.AbsolutePosition,
+                    [],
                     positionInfoResponse.PositionInfo.RelativePosition,
                     positionInfoResponse.PositionInfo.DistanceToGo
                     );
@@ -138,12 +145,13 @@ namespace IIoTHub.Infrastructure.DeviceDrivers.Drivers.Machines
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        private (string Ip, int Port, int Timeout) GetConnectionSettings(Dictionary<string, string> parameters)
+        private (FCSB1224W000SystemType SystemType, string Ip, int Port, int Timeout) GetConnectionSettings(Dictionary<string, string> parameters)
         {
+            var systemType = DriverShared.GetEnum(parameters, nameof(SystemType), SystemType);
             var ipAddress = DriverShared.GetString(parameters, nameof(IpAddress), IpAddress);
             var port = DriverShared.GetInt(parameters, nameof(Port), Port);
             var timeout = DriverShared.GetInt(parameters, nameof(Timeout), Timeout);
-            return (ipAddress, port, timeout);
+            return (systemType, ipAddress, port, timeout);
         }
 
         #endregion

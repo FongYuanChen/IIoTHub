@@ -245,7 +245,7 @@ namespace IIoTHub.Infrastructure.DeviceDriverHost.Focas.x86.Utilities
         /// <param name="handle"></param>
         /// <param name="pmcSetting"></param>
         /// <returns></returns>
-        public static FocasSpindleInfo GetSpindleInfo(ushort handle, FocasSpindlePMCReadSetting pmcSetting)
+        public static FocasSpindleInfo GetSpindleInfo(ushort handle)
         {
             // 獲取主軸轉速與進給率
             var speedInfo = new Focas1.ODBSPEED();
@@ -255,15 +255,15 @@ namespace IIoTHub.Infrastructure.DeviceDriverHost.Focas.x86.Utilities
             var actualSpeed = (int)(speedInfo.acts.data * Math.Pow(0.1, speedInfo.acts.dec));
 
             // 獲取進給率百分比 (透過讀取PMC)
-            var feedratePercentageRaw = ReadPMCRawValueAsInt(handle, pmcSetting.FeedratePercentage);
+            var feedratePercentageRaw = ReadPMCRawValueAsInt(handle, Focas1.PMC_ADR_TYPE.G, 12, Focas1.PMC_DATA_TYPE.Word);
             var feedratePercentage = ConvertFeedratePercentage(feedratePercentageRaw);
 
             // 獲取快速進給率百分比 (透過讀取PMC)
-            var feedrateRapidPercentageRaw = ReadPMCRawValueAsInt(handle, pmcSetting.FeedrateRapidPercentage);
+            var feedrateRapidPercentageRaw = ReadPMCRawValueAsInt(handle, Focas1.PMC_ADR_TYPE.G, 14, Focas1.PMC_DATA_TYPE.Byte);
             var feedrateRapidPercentage = ConvertFeedrateRapidPercentage(feedrateRapidPercentageRaw);
 
             // 獲取主軸轉速百分比 (透過讀取PMC)
-            var speedPercentageRaw = ReadPMCRawValueAsInt(handle, pmcSetting.SpeedPercentage);
+            var speedPercentageRaw = ReadPMCRawValueAsInt(handle, Focas1.PMC_ADR_TYPE.G, 30, Focas1.PMC_DATA_TYPE.Word);
             var speedPercentage = ConvertSpeedPercentage(speedPercentageRaw);
 
             // 獲取主軸負載百分比
@@ -299,18 +299,18 @@ namespace IIoTHub.Infrastructure.DeviceDriverHost.Focas.x86.Utilities
         /// <param name="handle"></param>
         /// <param name="readSetting"></param>
         /// <returns></returns>
-        private static int ReadPMCRawValueAsInt(ushort handle, FocasPMCReadSetting readSetting)
+        private static int ReadPMCRawValueAsInt(ushort handle, Focas1.PMC_ADR_TYPE addressType, int addressIndex, Focas1.PMC_DATA_TYPE addressDataType)
         {
-            return readSetting.AddressDataType switch
+            return addressDataType switch
             {
-                FocasPMCAddressDataType.Byte =>
-                    ReadPMCByteData(handle, readSetting.AddressType, readSetting.AddressIndex),
+                Focas1.PMC_DATA_TYPE.Byte =>
+                    ReadPMCByteData(handle, addressType, addressIndex),
 
-                FocasPMCAddressDataType.Word =>
-                    ReadPMCWordData(handle, readSetting.AddressType, readSetting.AddressIndex),
+                Focas1.PMC_DATA_TYPE.Word =>
+                    ReadPMCWordData(handle, addressType, addressIndex),
 
-                FocasPMCAddressDataType.Long =>
-                    ReadPMCLongData(handle, readSetting.AddressType, readSetting.AddressIndex),
+                Focas1.PMC_DATA_TYPE.Long =>
+                    ReadPMCLongData(handle, addressType, addressIndex),
 
                 _ => 0
             };
@@ -323,10 +323,10 @@ namespace IIoTHub.Infrastructure.DeviceDriverHost.Focas.x86.Utilities
         /// <param name="addressType"></param>
         /// <param name="addressIndex"></param>
         /// <returns></returns>
-        private static byte ReadPMCByteData(ushort handle, FocasPMCAddressType addressType, int addressIndex)
+        private static byte ReadPMCByteData(ushort handle, Focas1.PMC_ADR_TYPE addressType, int addressIndex)
         {
             var pmcInfo = new Focas1.IODBPMC0();
-            EnsureOk(Focas1.pmc_rdpmcrng(handle, (short)addressType, (short)FocasPMCAddressDataType.Byte, (ushort)addressIndex, (ushort)addressIndex, Focas1.IODBPMC0_LENGTH, pmcInfo));
+            EnsureOk(Focas1.pmc_rdpmcrng(handle, (short)addressType, (short)Focas1.PMC_DATA_TYPE.Byte, (ushort)addressIndex, (ushort)addressIndex, Focas1.IODBPMC0_LENGTH, pmcInfo));
             return pmcInfo.cdata[0];
         }
 
@@ -337,10 +337,10 @@ namespace IIoTHub.Infrastructure.DeviceDriverHost.Focas.x86.Utilities
         /// <param name="addressType"></param>
         /// <param name="addressIndex"></param>
         /// <returns></returns>
-        private static short ReadPMCWordData(ushort handle, FocasPMCAddressType addressType, int addressIndex)
+        private static short ReadPMCWordData(ushort handle, Focas1.PMC_ADR_TYPE addressType, int addressIndex)
         {
             var pmcInfo = new Focas1.IODBPMC1();
-            EnsureOk(Focas1.pmc_rdpmcrng(handle, (short)addressType, (short)FocasPMCAddressDataType.Word, (ushort)addressIndex, (ushort)addressIndex, Focas1.IODBPMC1_LENGTH, pmcInfo));
+            EnsureOk(Focas1.pmc_rdpmcrng(handle, (short)addressType, (short)Focas1.PMC_DATA_TYPE.Word, (ushort)addressIndex, (ushort)addressIndex, Focas1.IODBPMC1_LENGTH, pmcInfo));
             return pmcInfo.idata[0];
         }
 
@@ -351,10 +351,10 @@ namespace IIoTHub.Infrastructure.DeviceDriverHost.Focas.x86.Utilities
         /// <param name="addressType"></param>
         /// <param name="addressIndex"></param>
         /// <returns></returns>
-        private static int ReadPMCLongData(ushort handle, FocasPMCAddressType addressType, int addressIndex)
+        private static int ReadPMCLongData(ushort handle, Focas1.PMC_ADR_TYPE addressType, int addressIndex)
         {
             var pmcInfo = new Focas1.IODBPMC2();
-            EnsureOk(Focas1.pmc_rdpmcrng(handle, (short)addressType, (short)FocasPMCAddressDataType.Long, (ushort)addressIndex, (ushort)addressIndex, Focas1.IODBPMC2_LENGTH, pmcInfo));
+            EnsureOk(Focas1.pmc_rdpmcrng(handle, (short)addressType, (short)Focas1.PMC_DATA_TYPE.Long, (ushort)addressIndex, (ushort)addressIndex, Focas1.IODBPMC2_LENGTH, pmcInfo));
             return pmcInfo.ldata[0];
         }
 
@@ -473,7 +473,7 @@ namespace IIoTHub.Infrastructure.DeviceDriverHost.Focas.x86.Utilities
         /// </summary>
         /// <param name="resultCode"></param>
         /// <exception cref="FocasException"></exception>
-        private static void EnsureOk(short resultCode)
+        public static void EnsureOk(short resultCode)
         {
             if (resultCode != Focas1.EW_OK)
                 throw new FocasException(resultCode);

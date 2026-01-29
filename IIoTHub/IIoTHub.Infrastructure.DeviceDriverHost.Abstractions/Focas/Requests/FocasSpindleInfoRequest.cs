@@ -1,5 +1,4 @@
 ﻿using IIoTHub.Infrastructure.DeviceDriverHost.Abstractions.Focas.Enums;
-using IIoTHub.Infrastructure.DeviceDriverHost.Abstractions.Focas.Models;
 
 namespace IIoTHub.Infrastructure.DeviceDriverHost.Abstractions.Focas.Requests
 {
@@ -11,10 +10,5 @@ namespace IIoTHub.Infrastructure.DeviceDriverHost.Abstractions.Focas.Requests
         public FocasSpindleInfoRequest() : base(FocasCommandType.GetSpindleInfo)
         {
         }
-
-        /// <summary>
-        /// 主軸相關 PMC 讀取設定
-        /// </summary>
-        public FocasSpindlePMCReadSetting SpindlePMCReadSetting { get; set; }
     }
 }

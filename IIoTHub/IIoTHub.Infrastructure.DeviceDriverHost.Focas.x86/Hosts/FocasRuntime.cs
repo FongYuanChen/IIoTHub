@@ -59,7 +59,7 @@ namespace IIoTHub.Infrastructure.DeviceDriverHost.Focas.x86.Hosts
         {
             return Execute(
                 request,
-                handle => FocasSpindleInfoResponse.Success(request.RequestId, FocasHelper.GetSpindleInfo(handle,request.SpindlePMCReadSetting)),
+                handle => FocasSpindleInfoResponse.Success(request.RequestId, FocasHelper.GetSpindleInfo(handle)),
                 ex => FocasSpindleInfoResponse.FromException(request.RequestId, ex));
         }
 
@@ -93,8 +93,11 @@ namespace IIoTHub.Infrastructure.DeviceDriverHost.Focas.x86.Hosts
             try
             {
                 var connection = _connectionPool.GetOrCreate(request.IpAddress, request.Port, request.Timeout);
-                connection.EnsureConnected();
-                return executeWithHandle(connection.Handle);
+                lock (connection)
+                {
+                    connection.EnsureConnected();
+                    return executeWithHandle(connection.Handle);
+                }
             }
             catch (Exception ex)
             {
