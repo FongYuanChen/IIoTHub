@@ -77,7 +77,7 @@
 
 ## 🖥️ 操作演示
 
-https://github.com/user-attachments/assets/5c51bf94-e111-4b3c-8cd9-7b19fcc2e683
+https://github.com/user-attachments/assets/2a1fc513-e7f2-4b31-94ff-9e5e3e587a8c
 
 
 ## 📜 授權條款
