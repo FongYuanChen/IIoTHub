@@ -16,6 +16,7 @@ namespace IIoTHub.Application.DependencyInjections
         /// <returns></returns>
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
+            services.AddSingleton<IDeviceSnapshotService, DeviceSnapshotService>();
             services.AddSingleton<IDeviceSnapshotMonitorService, DeviceSnapshotMonitorService>();
             services.AddSingleton<IDeviceSnapshotPublisher, DeviceSnapshotPublisher>();
             services.AddSingleton<IDeviceRuntimeStatisticsService, DeviceRuntimeStatisticsService>();

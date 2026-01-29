@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IIoTHub.Infrastructure.Devi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IIoTHub.Infrastructure.DeviceDriverHost.FCSB1224W000.x86", "IIoTHub.Infrastructure.DeviceDriverHost.FCSB1224W000.x86\IIoTHub.Infrastructure.DeviceDriverHost.FCSB1224W000.x86.csproj", "{3862F0C3-EDF4-4855-B748-8284F9E7B3DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IIoTHub.Api", "IIoTHub.Api\IIoTHub.Api.csproj", "{661CCF28-8F84-470F-BCF3-E97C27B11E0F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{3862F0C3-EDF4-4855-B748-8284F9E7B3DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3862F0C3-EDF4-4855-B748-8284F9E7B3DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3862F0C3-EDF4-4855-B748-8284F9E7B3DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{661CCF28-8F84-470F-BCF3-E97C27B11E0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{661CCF28-8F84-470F-BCF3-E97C27B11E0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{661CCF28-8F84-470F-BCF3-E97C27B11E0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{661CCF28-8F84-470F-BCF3-E97C27B11E0F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

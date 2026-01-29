@@ -67,6 +67,14 @@
    }
 
 
+## 📄 API 文件
+
+本專案提供 Swagger UI 作為 API 文件與測試工具。  
+專案執行後，可透過 `http://localhost:5000/swagger/index.html` 存取 Swagger UI。
+
+![Swagger UI Screenshot](https://github.com/user-attachments/assets/de5cc319-cbb9-4c9a-8199-1740816f73eb)
+
+
 ## 🖥️ 操作演示
 
 https://github.com/user-attachments/assets/5c51bf94-e111-4b3c-8cd9-7b19fcc2e683

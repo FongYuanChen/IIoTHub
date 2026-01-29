@@ -7,6 +7,7 @@
     <Nullable>disable</Nullable>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Resources\App.ico</ApplicationIcon>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IIoTHub.Api\IIoTHub.Api.csproj" />
     <ProjectReference Include="..\IIoTHub.Application\IIoTHub.Application.csproj" />
     <ProjectReference Include="..\IIoTHub.Domain\IIoTHub.Domain.csproj" />
     <ProjectReference Include="..\IIoTHub.Infrastructure\IIoTHub.Infrastructure.csproj" />

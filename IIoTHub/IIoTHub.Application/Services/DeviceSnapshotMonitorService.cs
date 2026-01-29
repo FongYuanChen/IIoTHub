@@ -13,22 +13,22 @@ namespace IIoTHub.Application.Services
     {
         private readonly IDeviceSnapshotMonitorStatusRepository _deviceSnapshotMonitorStatusRepository;
         private readonly IDeviceSettingRepository _deviceSettingRepository;
-        private readonly IDeviceDriverProvider _deviceDriverProvider;
         private readonly IDeviceRuntimeStatisticsService _deviceRuntimeStatisticsService;
+        private readonly IDeviceSnapshotService _deviceSnapshotService;
         private readonly IDeviceSnapshotPublisher _deviceSnapshotPublisher;
 
         private readonly ConcurrentDictionary<Guid, CancellationTokenSource> _monitorTasks = new();
 
         public DeviceSnapshotMonitorService(IDeviceSnapshotMonitorStatusRepository deviceSnapshotMonitorStatusRepository,
                                             IDeviceSettingRepository deviceSettingRepository,
-                                            IDeviceDriverProvider deviceDriverProvider,
                                             IDeviceRuntimeStatisticsService deviceRuntimeStatisticsService,
+                                            IDeviceSnapshotService deviceSnapshotService,
                                             IDeviceSnapshotPublisher deviceSnapshotPublisher)
         {
             _deviceSnapshotMonitorStatusRepository = deviceSnapshotMonitorStatusRepository;
             _deviceSettingRepository = deviceSettingRepository;
-            _deviceDriverProvider = deviceDriverProvider;
             _deviceRuntimeStatisticsService = deviceRuntimeStatisticsService;
+            _deviceSnapshotService = deviceSnapshotService;
             _deviceSnapshotPublisher = deviceSnapshotPublisher;
         }
 
@@ -73,23 +73,17 @@ namespace IIoTHub.Application.Services
                     switch (deviceSetting.CategoryType)
                     {
                         case DeviceCategoryType.Machine:
-                            var machineSnapshot = _deviceDriverProvider
-                                .GetMachineDriver(deviceSetting.DriverSetting.Name)
-                                .GetSnapshot(deviceSetting);
+                            var machineSnapshot = await _deviceSnapshotService.GetMachineSnapshotAsync(deviceId);
                             _deviceSnapshotPublisher.Publish(deviceId, machineSnapshot);
                             await _deviceRuntimeStatisticsService.OnRuntimeStatusChangedAsync(deviceId, machineSnapshot.RunStatus, machineSnapshot.Timestamp);
                             break;
                         case DeviceCategoryType.Magazine:
-                            var magazineSnapshot = _deviceDriverProvider
-                                .GetMagazineDriver(deviceSetting.DriverSetting.Name)
-                                .GetSnapshot(deviceSetting);
+                            var magazineSnapshot = await _deviceSnapshotService.GetMagazineSnapshotAsync(deviceId);
                             _deviceSnapshotPublisher.Publish(deviceId, magazineSnapshot);
                             await _deviceRuntimeStatisticsService.OnRuntimeStatusChangedAsync(deviceId, magazineSnapshot.RunStatus, magazineSnapshot.Timestamp);
                             break;
                         case DeviceCategoryType.Robot:
-                            var robotSnapshot = _deviceDriverProvider
-                                .GetRobotDriver(deviceSetting.DriverSetting.Name)
-                                .GetSnapshot(deviceSetting);
+                            var robotSnapshot = await _deviceSnapshotService.GetRobotSnapshotAsync(deviceId);
                             _deviceSnapshotPublisher.Publish(deviceId, robotSnapshot);
                             await _deviceRuntimeStatisticsService.OnRuntimeStatusChangedAsync(deviceId, robotSnapshot.RunStatus, robotSnapshot.Timestamp);
                             break;

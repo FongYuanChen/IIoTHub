@@ -1,8 +1,11 @@
 ﻿using Hardcodet.Wpf.TaskbarNotification;
+using IIoTHub.Api.DependencyInjections;
 using IIoTHub.App.Wpf.DependencyInjections;
 using IIoTHub.App.Wpf.Services;
 using IIoTHub.Application.DependencyInjections;
 using IIoTHub.Infrastructure.DependencyInjections;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Windows;
@@ -39,6 +42,30 @@ namespace IIoTHub.App.Wpf
                                 services.AddWpf();
                                 services.AddApplication();
                                 services.AddInfrastructure();
+                            })
+                            .ConfigureWebHostDefaults(webBuilder =>
+                            {
+                                webBuilder.ConfigureServices(services =>
+                                {
+                                    services.AddIIoTHubApi();
+                                });
+
+                                webBuilder.Configure(app =>
+                                {
+                                    app.UseRouting();
+
+                                    app.UseSwagger();
+                                    app.UseSwaggerUI(options =>
+                                    {
+                                        options.DisplayRequestDuration();
+                                        options.AddIIoTHubSwaggerEndpoint();
+                                    });
+
+                                    app.UseEndpoints(endpoints =>
+                                    {
+                                        endpoints.MapControllers();
+                                    });
+                                });
                             })
                             .Build();
 
